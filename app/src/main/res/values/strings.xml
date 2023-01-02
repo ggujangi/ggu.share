@@ -1,6 +1,12 @@
 <resources>
     <string name="app_name">ShareDataProject</string>
+
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
+
+    <string name="menu_delete">Delete</string>
+    <string name="menu_download">Download</string>
+    <string name="menu_forward">Forward</string>
+    <string name="menu_check_mode">Check Mode</string>
 </resources>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/navigation_delete"
+        android:icon="@drawable/ic_menu_delete"
+        android:title="@string/menu_delete"
+        app:showAsAction="ifRoom"/>
+
+    <item
+        android:id="@+id/navigation_check_mode"
+        android:icon="@drawable/ic_menu_check_box"
+        android:title="@string/menu_check_mode"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/navigation_forward"
+        android:icon="@drawable/ic_menu_forward_24px"
+        android:title="@string/menu_forward"
+        app:showAsAction="ifRoom"/>
+</menu>
