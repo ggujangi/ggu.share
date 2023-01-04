@@ -17,6 +17,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
+            app:navigationIcon="@drawable/ic_menu_settings"
+            app:navigationContentDescription="@string/menu_settings"
             app:hideOnScroll="true"
             app:menu="@menu/main_bottom_app_bar" />
 
