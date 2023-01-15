@@ -2,11 +2,13 @@ package com.ggu.share.upload.ui
 
 import android.Manifest
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import com.ggu.share.R
 import com.ggu.share.databinding.FragmentDialogUploadBinding
@@ -22,6 +24,12 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 class UploadDialogFragment : BottomSheetDialogFragment(), View.OnClickListener {
 
     private lateinit var binding: FragmentDialogUploadBinding
+
+    private val takePicturePreviewResult =
+        registerForActivityResult(ActivityResultContracts.TakePicturePreview()) { bitmap: Bitmap? ->
+            dismiss()
+        }
+
 
     private val cameraPermissionResult =
         registerForActivityResult(CameraPermissionContract()) { (isGranted, reqCode) ->
@@ -74,6 +82,7 @@ class UploadDialogFragment : BottomSheetDialogFragment(), View.OnClickListener {
     private fun processCamera(reqCode: Int) {
         when (reqCode) {
             REQ_CODE_CAMERA_INTENT -> {
+                takePicturePreviewResult.launch(null)
             }
             REQ_CODE_CAMERA_X -> {
             }
