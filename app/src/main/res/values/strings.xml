@@ -1,11 +1,26 @@
 <resources>
     <string name="app_name">ShareDataProject</string>
 
+    <string name="confirm">Confirm</string>
+    <string name="cancel">Cancel</string>
+
+    <string name="message_error">An unknown error has occurred. please try again.</string>
+
+    <string name="ok">OK</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+
     <string name="title_upload">Upload</string>
 
     <string name="title_shared_list">Shared list</string>
 
     <string name="dialog_menu_camera">Camera</string>
+
+    <string-array name="dialog_camera_options">
+        <item name="take_photo_intent">Take a photo (Intent)</item>
+        <item name="take_photo_cameraX">Take a photo (CameraX)</item>
+    </string-array>
+
     <string name="dialog_menu_gallery">Gallery</string>
     <string name="dialog_menu_file">File</string>
     <string name="dialog_menu_folder">Folder</string>
@@ -17,4 +32,7 @@
     <string name="menu_delete">Delete</string>
     <string name="menu_download">Download</string>
     <string name="menu_forward">Forward</string>
+
+    <string name="request_camera_permission">Camera permission is required. Would you like to request permission?</string>
+    <string name="request_permission_again">Ask again</string>
 </resources>
