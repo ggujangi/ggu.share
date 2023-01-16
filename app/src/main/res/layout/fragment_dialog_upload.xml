@@ -53,7 +53,7 @@
                 android:layout_height="wrap_content"
                 android:onClickListener="@{clickListener}"
                 android:text="@string/dialog_menu_camera"
-                app:icon="@drawable/ic_cemra_24px" />
+                app:icon="@drawable/ic_camera_24px" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/gallery_btn"
