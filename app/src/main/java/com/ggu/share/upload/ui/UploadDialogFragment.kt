@@ -1,6 +1,7 @@
 package com.ggu.share.upload.ui
 
 import android.Manifest
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.os.Bundle
@@ -12,6 +13,8 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import com.ggu.share.R
 import com.ggu.share.databinding.FragmentDialogUploadBinding
+import com.ggu.share.upload.ui.CameraXActivity.Companion.KEY_REQUEST_TYPE
+import com.ggu.share.upload.ui.CameraXActivity.Companion.REQ_CODE_TAKE_PHOTO
 import com.ggu.share.utils.contract.CameraPermissionContract
 import com.ggu.share.utils.contract.CameraPermissionContract.Companion.REQ_CODE_CAMERA_INTENT
 import com.ggu.share.utils.contract.CameraPermissionContract.Companion.REQ_CODE_CAMERA_X
@@ -28,6 +31,11 @@ class UploadDialogFragment : BottomSheetDialogFragment(), View.OnClickListener {
     private val takePicturePreviewResult =
         registerForActivityResult(ActivityResultContracts.TakePicturePreview()) { bitmap: Bitmap? ->
             dismiss()
+        }
+
+    private val takePhotoResult =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+
         }
 
 
@@ -85,6 +93,9 @@ class UploadDialogFragment : BottomSheetDialogFragment(), View.OnClickListener {
                 takePicturePreviewResult.launch(null)
             }
             REQ_CODE_CAMERA_X -> {
+                takePhotoResult.launch(
+                    Intent(requireContext(), CameraXActivity::class.java).putExtra(KEY_REQUEST_TYPE, REQ_CODE_TAKE_PHOTO)
+                )
             }
             else -> {
                 Toast.makeText(requireContext(), R.string.message_error, Toast.LENGTH_SHORT).show()
