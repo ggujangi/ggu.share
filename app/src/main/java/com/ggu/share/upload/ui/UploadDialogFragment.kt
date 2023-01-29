@@ -28,17 +28,6 @@ class UploadDialogFragment : BottomSheetDialogFragment(), View.OnClickListener {
 
     private lateinit var binding: FragmentDialogUploadBinding
 
-    private val takePicturePreviewResult =
-        registerForActivityResult(ActivityResultContracts.TakePicturePreview()) { bitmap: Bitmap? ->
-            dismiss()
-        }
-
-    private val takePhotoResult =
-        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-
-        }
-
-
     private val cameraPermissionResult =
         registerForActivityResult(CameraPermissionContract()) { (isGranted, reqCode) ->
             if (isGranted) {
@@ -50,6 +39,21 @@ class UploadDialogFragment : BottomSheetDialogFragment(), View.OnClickListener {
                     Toast.LENGTH_SHORT
                 ).show()
             }
+        }
+
+    private val takePicturePreviewResult =
+        registerForActivityResult(ActivityResultContracts.TakePicturePreview()) { bitmap: Bitmap? ->
+            dismiss()
+        }
+
+    private val takePhotoResult =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+            dismiss()
+        }
+
+    private val getContentResult =
+        registerForActivityResult(ActivityResultContracts.GetContent()) {
+            dismiss()
         }
 
     override fun onCreateView(
@@ -94,7 +98,10 @@ class UploadDialogFragment : BottomSheetDialogFragment(), View.OnClickListener {
             }
             REQ_CODE_CAMERA_X -> {
                 takePhotoResult.launch(
-                    Intent(requireContext(), CameraXActivity::class.java).putExtra(KEY_REQUEST_TYPE, REQ_CODE_TAKE_PHOTO)
+                    Intent(requireContext(), CameraXActivity::class.java).putExtra(
+                        KEY_REQUEST_TYPE,
+                        REQ_CODE_TAKE_PHOTO
+                    )
                 )
             }
             else -> {
@@ -120,6 +127,9 @@ class UploadDialogFragment : BottomSheetDialogFragment(), View.OnClickListener {
                     }
                 }
             }
+            R.id.file_btn -> {
+                getContentResult.launch("*/*")
+            }
             else -> {
 
             }
@@ -135,5 +145,4 @@ class UploadDialogFragment : BottomSheetDialogFragment(), View.OnClickListener {
             return fragment
         }
     }
-
 }
