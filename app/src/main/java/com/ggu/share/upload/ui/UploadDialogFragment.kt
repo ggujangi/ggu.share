@@ -28,6 +28,7 @@ class UploadDialogFragment : BottomSheetDialogFragment(), View.OnClickListener {
 
     private lateinit var binding: FragmentDialogUploadBinding
 
+    // Manifest.permission.CAMERA Permission
     private val cameraPermissionResult =
         registerForActivityResult(CameraPermissionContract()) { (isGranted, reqCode) ->
             if (isGranted) {
@@ -41,16 +42,19 @@ class UploadDialogFragment : BottomSheetDialogFragment(), View.OnClickListener {
             }
         }
 
+    // Take a Picture
     private val takePicturePreviewResult =
         registerForActivityResult(ActivityResultContracts.TakePicturePreview()) { bitmap: Bitmap? ->
             dismiss()
         }
 
+    // Camera X
     private val takePhotoResult =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
             dismiss()
         }
 
+    // File Picker
     private val getContentResult =
         registerForActivityResult(ActivityResultContracts.GetContent()) {
             dismiss()
@@ -126,6 +130,9 @@ class UploadDialogFragment : BottomSheetDialogFragment(), View.OnClickListener {
                         }
                     }
                 }
+            }
+            R.id.gallery_btn -> {
+
             }
             R.id.file_btn -> {
                 getContentResult.launch("*/*")
