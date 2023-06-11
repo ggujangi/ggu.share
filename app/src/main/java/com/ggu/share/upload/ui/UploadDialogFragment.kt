@@ -21,6 +21,8 @@ import com.ggu.share.utils.contract.CameraPermissionContract.Companion.REQ_CODE_
 import com.ggu.share.utils.dialog.DialogUtils.showListAlertDialog
 import com.ggu.share.utils.dialog.DialogUtils.MENU_CAMERA_INTENT
 import com.ggu.share.utils.dialog.DialogUtils.MENU_CAMERA_X
+import com.ggu.share.utils.dialog.DialogUtils.MENU_GET_CONTENT
+import com.ggu.share.utils.dialog.DialogUtils.MENU_GET_MULTIPLE_CONTENT
 import com.ggu.share.utils.dialog.DialogUtils.showButtonAlertDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
@@ -57,6 +59,13 @@ class UploadDialogFragment : BottomSheetDialogFragment(), View.OnClickListener {
     // File Picker
     private val getContentResult =
         registerForActivityResult(ActivityResultContracts.GetContent()) {
+            dismiss()
+        }
+
+
+    // File List Picker
+    private val getMultipleContentResult =
+        registerForActivityResult(ActivityResultContracts.GetMultipleContents()) {
             dismiss()
         }
 
@@ -135,7 +144,19 @@ class UploadDialogFragment : BottomSheetDialogFragment(), View.OnClickListener {
 
             }
             R.id.file_btn -> {
-                getContentResult.launch("*/*")
+                showListAlertDialog(
+                    context = requireContext(),
+                    items = R.array.dialog_file_options
+                ) { _, position ->
+                    when (position) {
+                        MENU_GET_CONTENT -> {
+                            getContentResult.launch("*/*")
+                        }
+                        MENU_GET_MULTIPLE_CONTENT -> {
+                            getMultipleContentResult.launch("*/*")
+                        }
+                    }
+                }
             }
             else -> {
 
