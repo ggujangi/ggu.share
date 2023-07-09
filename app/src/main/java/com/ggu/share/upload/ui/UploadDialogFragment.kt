@@ -21,6 +21,8 @@ import com.ggu.share.utils.contract.CameraPermissionContract.Companion.REQ_CODE_
 import com.ggu.share.utils.dialog.DialogUtils.showListAlertDialog
 import com.ggu.share.utils.dialog.DialogUtils.MENU_CAMERA_INTENT
 import com.ggu.share.utils.dialog.DialogUtils.MENU_CAMERA_X
+import com.ggu.share.utils.dialog.DialogUtils.MENU_GET_CONTENT
+import com.ggu.share.utils.dialog.DialogUtils.MENU_GET_MULTIPLE_CONTENT
 import com.ggu.share.utils.dialog.DialogUtils.showButtonAlertDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
@@ -28,17 +30,7 @@ class UploadDialogFragment : BottomSheetDialogFragment(), View.OnClickListener {
 
     private lateinit var binding: FragmentDialogUploadBinding
 
-    private val takePicturePreviewResult =
-        registerForActivityResult(ActivityResultContracts.TakePicturePreview()) { bitmap: Bitmap? ->
-            dismiss()
-        }
-
-    private val takePhotoResult =
-        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-
-        }
-
-
+    // Manifest.permission.CAMERA Permission
     private val cameraPermissionResult =
         registerForActivityResult(CameraPermissionContract()) { (isGranted, reqCode) ->
             if (isGranted) {
@@ -50,6 +42,31 @@ class UploadDialogFragment : BottomSheetDialogFragment(), View.OnClickListener {
                     Toast.LENGTH_SHORT
                 ).show()
             }
+        }
+
+    // Take a Picture
+    private val takePicturePreviewResult =
+        registerForActivityResult(ActivityResultContracts.TakePicturePreview()) { bitmap: Bitmap? ->
+            dismiss()
+        }
+
+    // Camera X
+    private val takePhotoResult =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+            dismiss()
+        }
+
+    // File Picker
+    private val getContentResult =
+        registerForActivityResult(ActivityResultContracts.GetContent()) {
+            dismiss()
+        }
+
+
+    // File List Picker
+    private val getMultipleContentResult =
+        registerForActivityResult(ActivityResultContracts.GetMultipleContents()) {
+            dismiss()
         }
 
     override fun onCreateView(
@@ -94,7 +111,10 @@ class UploadDialogFragment : BottomSheetDialogFragment(), View.OnClickListener {
             }
             REQ_CODE_CAMERA_X -> {
                 takePhotoResult.launch(
-                    Intent(requireContext(), CameraXActivity::class.java).putExtra(KEY_REQUEST_TYPE, REQ_CODE_TAKE_PHOTO)
+                    Intent(requireContext(), CameraXActivity::class.java).putExtra(
+                        KEY_REQUEST_TYPE,
+                        REQ_CODE_TAKE_PHOTO
+                    )
                 )
             }
             else -> {
@@ -120,6 +140,24 @@ class UploadDialogFragment : BottomSheetDialogFragment(), View.OnClickListener {
                     }
                 }
             }
+            R.id.gallery_btn -> {
+
+            }
+            R.id.file_btn -> {
+                showListAlertDialog(
+                    context = requireContext(),
+                    items = R.array.dialog_file_options
+                ) { _, position ->
+                    when (position) {
+                        MENU_GET_CONTENT -> {
+                            getContentResult.launch("*/*")
+                        }
+                        MENU_GET_MULTIPLE_CONTENT -> {
+                            getMultipleContentResult.launch("*/*")
+                        }
+                    }
+                }
+            }
             else -> {
 
             }
@@ -135,5 +173,4 @@ class UploadDialogFragment : BottomSheetDialogFragment(), View.OnClickListener {
             return fragment
         }
     }
-
 }

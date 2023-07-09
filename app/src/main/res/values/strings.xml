@@ -21,6 +21,11 @@
         <item name="take_photo_cameraX">Take a photo (CameraX)</item>
     </string-array>
 
+    <string-array name="dialog_file_options">
+        <item name="get_content">Get content</item>
+        <item name="get_multiple_content">Get multiple content</item>
+    </string-array>
+
     <string name="dialog_menu_gallery">Gallery</string>
     <string name="dialog_menu_file">File</string>
     <string name="dialog_menu_folder">Folder</string>

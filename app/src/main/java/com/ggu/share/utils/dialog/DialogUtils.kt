@@ -12,6 +12,9 @@ object DialogUtils {
     const val MENU_CAMERA_INTENT = 0
     const val MENU_CAMERA_X = 1
 
+    const val MENU_GET_CONTENT = 0
+    const val MENU_GET_MULTIPLE_CONTENT = 1
+
     fun showAlertDialog(
         context: Context,
         @StringRes message: Int,
