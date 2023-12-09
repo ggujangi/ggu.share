@@ -12,7 +12,6 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import com.ggu.share.R
-import com.ggu.share.databinding.FragmentDialogUploadBinding
 import com.ggu.share.upload.ui.CameraXActivity.Companion.KEY_REQUEST_TYPE
 import com.ggu.share.upload.ui.CameraXActivity.Companion.REQ_CODE_TAKE_PHOTO
 import com.ggu.share.utils.contract.CameraPermissionContract
@@ -28,7 +27,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
 class UploadDialogFragment : BottomSheetDialogFragment(), View.OnClickListener {
 
-    private lateinit var binding: FragmentDialogUploadBinding
+    private lateinit var binding: View
 
     // Manifest.permission.CAMERA Permission
     private val cameraPermissionResult =
@@ -74,10 +73,8 @@ class UploadDialogFragment : BottomSheetDialogFragment(), View.OnClickListener {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentDialogUploadBinding.inflate(inflater, container, false).apply {
-            clickListener = this@UploadDialogFragment
-        }
-        return binding.root
+        binding = inflater.inflate(R.layout.fragment_dialog_upload, container, false)
+        return binding
     }
 
     private fun requestCameraPermission(requestCode: Int) {

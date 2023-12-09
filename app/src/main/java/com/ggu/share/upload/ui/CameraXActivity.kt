@@ -15,10 +15,16 @@ import androidx.camera.core.ImageCapture
 import androidx.camera.core.ImageCaptureException
 import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
-import androidx.camera.video.*
+import androidx.camera.video.MediaStoreOutputOptions
+import androidx.camera.video.Recorder
+import androidx.camera.video.Recording
+import androidx.camera.video.VideoCapture
+import androidx.camera.video.VideoRecordEvent
+import androidx.camera.view.PreviewView
 import androidx.core.content.ContextCompat
 import androidx.core.content.PermissionChecker
-import com.ggu.share.databinding.ActivityCameraXBinding
+import com.ggu.share.R
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.ExecutorService
@@ -26,7 +32,8 @@ import java.util.concurrent.Executors
 
 class CameraXActivity : AppCompatActivity() {
 
-    private lateinit var viewBinding: ActivityCameraXBinding
+    private lateinit var imageCaptureButton: FloatingActionButton
+    private lateinit var videoCaptureButton: FloatingActionButton
 
     private val requestPermissionResult =
         registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) {
@@ -51,8 +58,8 @@ class CameraXActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewBinding = ActivityCameraXBinding.inflate(layoutInflater)
-        setContentView(viewBinding.root)
+        setContentView(R.layout.activity_camera_x)
+
 
         if (allPermissionsGranted()) {
             startCamera()
@@ -60,9 +67,12 @@ class CameraXActivity : AppCompatActivity() {
             requestPermissionResult.launch(REQUIRED_PERMISSIONS)
         }
 
+        imageCaptureButton = findViewById(R.id.image_capture_button)
+        videoCaptureButton = findViewById(R.id.video_capture_button)
+
         // Set up the listeners for take photo and video capture buttons
-        viewBinding.imageCaptureButton.setOnClickListener { takePhoto() }
-        viewBinding.videoCaptureButton.setOnClickListener { captureVideo() }
+        imageCaptureButton.setOnClickListener { takePhoto() }
+        videoCaptureButton.setOnClickListener { captureVideo() }
 
         cameraExecutor = Executors.newSingleThreadExecutor()
 
@@ -116,7 +126,7 @@ class CameraXActivity : AppCompatActivity() {
     private fun captureVideo() {
         val videoCapture = this.videoCapture ?: return
 
-        viewBinding.videoCaptureButton.isEnabled = false
+        videoCaptureButton.isEnabled = false
 
         val curRecording = recording
         if (curRecording != null) {
@@ -156,10 +166,11 @@ class CameraXActivity : AppCompatActivity() {
             .start(ContextCompat.getMainExecutor(this)) { recordEvent ->
                 when (recordEvent) {
                     is VideoRecordEvent.Start -> {
-                        viewBinding.videoCaptureButton.apply {
+                        videoCaptureButton.apply {
                             isEnabled = true
                         }
                     }
+
                     is VideoRecordEvent.Finalize -> {
                         if (!recordEvent.hasError()) {
                             val msg = "Video capture succeeded: " +
@@ -175,7 +186,7 @@ class CameraXActivity : AppCompatActivity() {
                                         "${recordEvent.error}"
                             )
                         }
-                        viewBinding.videoCaptureButton.apply {
+                        videoCaptureButton.apply {
                             isEnabled = true
                         }
                     }
@@ -194,7 +205,7 @@ class CameraXActivity : AppCompatActivity() {
             val preview = Preview.Builder()
                 .build()
                 .also {
-                    it.setSurfaceProvider(viewBinding.viewFinder.surfaceProvider)
+                    it.setSurfaceProvider(findViewById<PreviewView>(R.id.viewFinder).surfaceProvider)
                 }
 
             // Select back camera as a default
